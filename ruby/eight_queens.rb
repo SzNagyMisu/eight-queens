@@ -98,7 +98,6 @@ class EightQueens
     row = queens.size
     8.times do |col|
       new_setup = queens + [Queen.new(row, col)]
-      # p new_setup.map { |queen| [queen.row, queen.col] } => valid_setup?(new_setup)
       solve(new_setup) if valid_setup?(new_setup)
     end
 
@@ -106,6 +105,10 @@ class EightQueens
   end
 
   def self.valid_setup? queens
-    queens.all? { |queen_a| queens.none? { |queen_b| queen_a.attacks? [queen_b.row, queen_b.col] } }
+    queens.each_with_index.all? do |queen_a, i|
+      queens[(i + 1)..].none? do |queen_b|
+        queen_a.attacks? [queen_b.row, queen_b.col]
+      end
+    end
   end
 end
