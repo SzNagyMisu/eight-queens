@@ -3,7 +3,7 @@ class ChessBoard(object):
     def create(cls, pieces):
         squares = [[None for _ in range(8)] for _ in range(8)]
         for piece in pieces:
-            squares[piece.row][piece.col] = piece.__str__()
+            squares[piece.row][piece.col] = f"{piece}"
         return cls(squares)
 
     def __init__(self, squares):
