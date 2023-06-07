@@ -46,11 +46,32 @@ class Queen(Piece):
         return "Q"
 
     def attacked_squares(self) -> list[list[int, int]]:
-        horizontal = [[self.row, col] for col in range(0, 8) if not col == self.col]
-        vertical = [[row, self.col] for row in range(0, 8) if not row == self.row]
+        horizontal = [[self.row, col] for col in range(8) if not col == self.col]
+        vertical = [[row, self.col] for row in range(8) if not row == self.row]
         row_col_diff = self.row - self.col
-        diagonal_se_nw = [[row, row - row_col_diff] for row in range(0, 8) if not row == self.row]
+        diagonal_se_nw = [[row, row - row_col_diff] for row in range(8) if not row == self.row]
         row_col_sum = self.row + self.col
-        diagonal_sw_ne = [[row, row_col_sum - row] for row in range(0, 8) if not row == self.row]
+        diagonal_sw_ne = [[row, row_col_sum - row] for row in range(8) if not row == self.row]
         return horizontal + vertical + diagonal_se_nw + diagonal_sw_ne
 
+
+class EightQueens(object):
+    def solve(self, queens=[]):
+        row = len(queens)
+        if row == 0:
+            self.solutions = []
+        elif row == 8:
+            self.solutions.append(queens)
+            return
+
+        for col in range(0, 8):
+            queens_extended = queens + [Queen(row, col)]
+            if self._no_queen_attacks_each_other(queens_extended):
+                self.solve(queens_extended)
+
+    def _no_queen_attacks_each_other(self, queens):
+        for idx, queen_1 in enumerate(queens):
+            for queen_2 in queens[idx+1:]:
+                if queen_1.does_attack_square([queen_2.row, queen_2.col]):
+                    return False
+        return True
