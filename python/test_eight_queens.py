@@ -44,3 +44,16 @@ class TestQueen(object):
             ]
             attacked_squares = queen.attacked_squares()
             assert all(square in attacked_squares for square in expected_diagonal_squares)
+
+    class TestDoesAttackSquare(object):
+        def test_returns_true_if_given_square_is_attacked_by_queen(self):
+            queen = Queen(3, 4)
+            assert queen.does_attack_square([4, 3])
+            assert queen.does_attack_square([0, 4])
+            assert queen.does_attack_square([3, 6])
+
+        def test_returns_false_if_given_square_is_not_attacked_by_queen(self):
+            queen = Queen(3, 4)
+            assert not queen.does_attack_square([0, 0])
+            assert not queen.does_attack_square([1, 5])
+            assert not queen.does_attack_square([5, 7])

@@ -37,12 +37,15 @@ class Piece(object):
         if not (self.ROW_MIN <= self.row <= self.ROW_MAX and self.COL_MIN <= self.col <= self.COL_MAX):
             raise TypeError("Invalid values given - row and col should be between 0 and 7")
 
+    def does_attack_square(self, square) -> bool:
+        return square in self.attacked_squares()
+
 
 class Queen(Piece):
     def __str__(self):
         return "Q"
 
-    def attacked_squares(self):
+    def attacked_squares(self) -> list[list[int, int]]:
         horizontal = [[self.row, col] for col in range(0, 8) if not col == self.col]
         vertical = [[row, self.col] for row in range(0, 8) if not row == self.row]
         row_col_diff = self.row - self.col
@@ -50,3 +53,4 @@ class Queen(Piece):
         row_col_sum = self.row + self.col
         diagonal_sw_ne = [[row, row_col_sum - row] for row in range(0, 8) if not row == self.row]
         return horizontal + vertical + diagonal_se_nw + diagonal_sw_ne
+
